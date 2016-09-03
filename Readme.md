@@ -35,3 +35,6 @@ Steps:
            Edit javscript files in the public/src directory
            Edit css in the public/stylesheets directory
            Do not edit directly in dist
+
+   |
+   _________________________________________________________________
