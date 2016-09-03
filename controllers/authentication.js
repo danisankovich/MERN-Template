@@ -9,7 +9,9 @@ tokenForUser = (user) => {
 }
 
 exports.signup = function(req, res, next) {
+  console.log(req.body);
   const email = req.body.email;
+  const username = req.body.username;
   const password = req.body.password;
   if (!email || !password) {
     return res.status(422).send({error: 'Email and Password Must Be Provided'});
@@ -22,8 +24,9 @@ exports.signup = function(req, res, next) {
       return res.status(422).send({error: 'Email Already In Use'});
     }
     const newUser = new User({
-      email: req.body.email,
-      password: req.body.password
+      email: email,
+      password: password,
+      username: username
     });
     newUser.save((err) => {
       if (err) {
@@ -36,4 +39,25 @@ exports.signup = function(req, res, next) {
 
 exports.signin = function(req, res, next) {
   res.send({token: tokenForUser(req.user)});
+}
+exports.getUser = (req, res) => {
+  var token = req.headers.authorization;
+  console.log(token)
+  var user;
+  if(token) {
+    try {
+      var decoded = jwt.decode(token, config.secret);
+      User.findById(decoded.sub, (err, user) => {
+        console.log(err, user);
+        user = user
+        res.send(user)
+      })
+     }
+     catch (e) {
+       return res.status(401).send('authorization required');
+     }
+  }
+  else {
+    res.send({user: "NO_USER"})
+  }
 }
