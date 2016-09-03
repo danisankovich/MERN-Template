@@ -48,7 +48,6 @@ exports.getUser = (req, res) => {
     try {
       var decoded = jwt.decode(token, config.secret);
       User.findById(decoded.sub, (err, user) => {
-        console.log(err, user);
         user = user
         res.send(user)
       })

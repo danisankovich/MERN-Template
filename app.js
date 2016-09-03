@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/api/users', users);
+
 app.set('view engine', 'ejs');
 app.get('*', (req, res) => {
   var indexPath = path.join(__dirname, 'views/index.html');
